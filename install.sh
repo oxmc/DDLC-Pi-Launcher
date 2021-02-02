@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Define variables used in this script
-DIRECTORY = "$HOME/DDLC-Pi-Launcher"
+# cd into main folder
+cd $HOME/DDLC-Pi-Launcher
 # Download dependencies
 echo "Downloading dependencies..."
 apt-get update
@@ -10,9 +10,9 @@ apt-get install -y git python3 python yad renpy
 yad --no-click --separator='\n' \
 	--title='DDLC-Pi-Launcher installer' --center --window-icon="$DIRECTORY/icons/logo.png" \
 	--text=" Do you have a copy of DDLC?" \
-	--button="No!$HOME/DDLC-Pi-Launcher/icons/exit.png:1" \
-	--button="Yes!$HOME/DDLC-Pi-Launcher/icons/check.png:0" \
-	--image="$HOME/DDLC-Pi-Launcher/icons/download.png" \
+	--button="No!icons/exit.png:1" \
+	--button="Yes!icons/check.png:0" \
+	--image="icons/download.png" \
 	--no-selection 2>/dev/null
 button=$?
 if [ ! $button -eq 0 ];then
@@ -25,7 +25,7 @@ if [ ! $button -eq 0 ];then
 	--image="${DIRECTORY}/icons/install.png" \
 	--no-selection 2>/dev/null
   DLDDLC="$?"
-  if [ ! $DLDDLC -eq 0 ]
+  if [ $DLDDLC -eq 0 ]
     echo "Downloading DDLC..."
     wget https://download1499.mediafire.com/anzlui69h0dg/vrlt8gx2ii4j7k3/ddlc-win.zip || error "Unable to download DDLC!"
     echo "Downloaded DDLC!"
