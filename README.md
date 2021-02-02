@@ -2,7 +2,7 @@
 
 This allows Doki-Doki-Litature-Club to run on the raspberry pi!
 
-#Install
+# Install
 
 To install use this command:
 
