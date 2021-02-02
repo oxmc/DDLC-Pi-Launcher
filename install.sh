@@ -1,34 +1,47 @@
 #!/bin/bash
 
-# Prepare install folder
-echo "Preparing install folder..."
-mkdir /usr/local/dokidoki
-cd /usr/local/dokidoki
+# Define variables used in this script
+DIRECTORY = "$(dirname $0)/DDLC-Pi-Launcher"
 # Download dependencies
 echo "Downloading dependencies..."
 apt-get update
-apt-get install -y git python3 python
-# Download renpy
-echo "Downloading Ren'Py... (1/2)"
-wget -O renpy.tar.bz2 https://www.renpy.org/dl/7.3.5/renpy-7.3.5-sdk.tar.bz2
-echo "Downloading Ren'Py... (2/2)"
-wget -O raspi.tar.bz2 https://www.renpy.org/dl/7.3.5/renpy-7.3.5-raspi.tar.bz2
-# Extract renpy
-echo "Extracting... (1/2) renpy.tar.bz2"
-mkdir renpy
-tar -x -j -f renpy.tar.bz2 -C renpy
-echo "Extracting (2/2) raspi.tar.bz2"
-mkdir raspi
-tar -x -j -f raspi.tar.bz2 -C raspi
-echo "Finalising Ren'Py installation..."
-mv renpy/*/* renpy
-mv raspi/lib/* renpy/lib
-rmdir raspi/lib
-rmdir raspi
-echo "Downloading dokidoki launcher..."
-git clone https://github.com/CrazySqueak/dokidoki-pi-launcher.git
-mv dokidoki-pi-launcher dokidoki
-echo "Creating symlinks..."
-ln -s /usr/local/dokidoki/renpy rpy
-ln -s /usr/local/dokidoki/dokidoki dd
-ln -s /usr/local/dokidoki/dokidoki/dokidoki /usr/bin/dokidoki
+apt-get install -y git python3 python yad renpy
+# Aks user if they have a copy of DDLC
+#If yad exists, use a yad dialog
+if [ -f /usr/bin/yad ];then
+  yad --no-click --separator='\n' \
+	--title='DDLC-Pi-Launcher installer' --center --window-icon="$DIRECTORY/icons/logo.png" \
+	--text=" Do you have a copy of DDLC?" \
+	--button="No!$DIRECTORY/icons/exit.png:1" \
+	--button="Yes!$DIRECTORY/icons/check.png:0" \
+	--image="$DIRECTORY/icons/install.png" \
+	--no-selection 2>/dev/null
+  button=$?
+else #if yad does not exist then fallback to zenity
+  zenity --title='DDLC-Pi-Launcher installer' --window-icon="$DIRECTORY/icons/logo.png" \
+  	--text=" Do you have a copy of DDLC?" \
+  	--ok-label=Yes! --cancel-label=No \
+  	--hide-header 2>/dev/null
+  button=$?
+fi
+if [ ! $button -eq 0 ];then
+  echo "User does not have a copy of DDLC."
+  if [ -f /usr/bin/yad ];then
+    yad --no-click --separator='\n' \
+	--title='DDLC-Pi-Launcher installer' --center --window-icon="${DIRECTORY}/icons/logo.png" \
+	--text=" Do you want me to download a copy of DDLC?" \
+	--button="No!${DIRECTORY}/icons/exit.png:1" \
+	--button="Yes!${DIRECTORY}/icons/check.png:0" \
+	--image="${DIRECTORY}/icons/install.png" \
+	--no-selection 2>/dev/null
+  else #if yad does not exist
+    echo "Do you want me to download a copy of DDLC?"
+    read DLDDLC
+  fi
+    echo "Please type the path to the DDLC folder."
+    read DDLCFOLDER
+
+    
+else
+  echo "User has a copy of DDLC."
+fi
