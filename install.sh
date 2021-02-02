@@ -25,7 +25,7 @@ if [ ! $button -eq 0 ];then
 	--image="${DIRECTORY}/icons/install.png" \
 	--no-selection 2>/dev/null
   DLDDLC="$?"
-  if [ $DLDDLC == "y" or $button == "0" ]
+  if [ ! $DLDDLC -eq 0 ]
     echo "Downloading DDLC..."
     wget https://download1499.mediafire.com/anzlui69h0dg/vrlt8gx2ii4j7k3/ddlc-win.zip || error "Unable to download DDLC!"
     echo "Downloaded DDLC!"
