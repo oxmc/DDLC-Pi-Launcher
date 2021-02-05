@@ -1,21 +1,24 @@
 #!/bin/bash
 
+# Main work dir
+DIRECTORY = "~/DDLC-Pi-Launcher"
 # cd into main folder
-cd $HOME/DDLC-Pi-Launcher
+cd $DIRECTORY
 # Download dependencies
 echo "Downloading dependencies..."
 apt-get update
 apt-get install -y git python3 python yad renpy
+echo "Dependencies downloaded!"
 # Aks user if they have a copy of DDLC
 yad --no-click --separator='\n' \
 	--title='DDLC-Pi-Launcher installer' --center --window-icon="$DIRECTORY/icons/logo.png" \
 	--text=" Do you have a copy of DDLC?" \
-	--button="No!icons/exit.png:1" \
-	--button="Yes!icons/check.png:0" \
+	--button="No!icons/exit.png:0" \
+	--button="Yes!icons/check.png:1" \
 	--image="icons/download.png" \
 	--no-selection 2>/dev/null
-button=$?
-if [ ! $button -eq 0 ];then
+button="$?"
+if [ $button -eq 0 ];then
   echo "User does not have a copy of DDLC."
   yad --no-click --separator='\n' \
 	--title='DDLC-Pi-Launcher installer' --center --window-icon="${DIRECTORY}/icons/logo.png" \
@@ -29,14 +32,14 @@ if [ ! $button -eq 0 ];then
     echo "Downloading DDLC..."
     wget https://download1499.mediafire.com/anzlui69h0dg/vrlt8gx2ii4j7k3/ddlc-win.zip || error "Unable to download DDLC!"
     echo "Downloaded DDLC!"
+  else
+    error "This program requires DDLC to use this app."
   fi
 else
 echo "User has a copy of DDLC."
-yad --no-click --file="$HOME" --separator='\n' \
+yad --no-click --file="~" --separator='\n' \
 	--title='DDLC-Pi-Launcher installer' --center --window-icon="${DIRECTORY}/icons/logo.png" \
-	--text=" Please select the folder containing DDLC." \
-	--button="No!${DIRECTORY}/icons/exit.png:1" \
-	--button="Yes!${DIRECTORY}/icons/check.png:0" \
+        --text="Choose the zip folder containing DDLC." \
 	--image="${DIRECTORY}/icons/install.png" \
 	--no-selection 2>/dev/null
 fi
