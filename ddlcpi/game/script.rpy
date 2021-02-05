@@ -3,7 +3,7 @@
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
 
-define e = Character("Eileen")
+#define e = Character("Eileen")
 
 
 # The game starts here.
@@ -20,14 +20,17 @@ label start:
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
 
-    show eileen happy
+    # show eileen happy
 
     # These display lines of dialogue.
 
-    e "You've created a new Ren'Py game."
+    # e "You've created a new Ren'Py game."
 
-    e "Once you add a story, pictures, and music, you can release it to the world!"
-
+    # e "Once you add a story, pictures, and music, you can release it to the world!"
+    
+    init python:
+        import subprocess
+        subprocess.Popen("renpy ~/DDLC-Pi-Launcher/ddlcpi/", stdout=subprocess.PIPE, shell=True)
     # This ends the game.
 
     return
