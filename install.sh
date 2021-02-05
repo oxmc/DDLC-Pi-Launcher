@@ -3,7 +3,7 @@
 # Main work dir
 dir = "~/DDLC-Pi-Launcher"
 # cd into main folder
-cd $DIRECTORY
+cd $dir
 # Download dependencies
 echo "Downloading dependencies..."
 apt-get update
