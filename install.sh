@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Main work dir
-dir = "~/DDLC-Pi-Launcher"
+dir="~/DDLC-Pi-Launcher"
 # cd into main folder
 cd $dir
 # Download dependencies
